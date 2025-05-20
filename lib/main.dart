@@ -1,4 +1,5 @@
 import 'package:api_demonstration/middlewares/auth.dart';
+import 'package:api_demonstration/views/register_form.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -21,6 +22,7 @@ class MyApp extends StatelessWidget {
       getPages: [
         GetPage(name: '/login', page: () => Login()),
         GetPage(name: '/home', page: () => Home()),
+        GetPage(name: "/registration", page: () => Register()),
       ],
       initialBinding: BindingsBuilder(() {
         Get.put(AuthController());
