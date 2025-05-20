@@ -2,7 +2,6 @@ import 'package:api_demonstration/middlewares/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'home.dart';
 import 'register_form.dart';
 
 class Login extends StatefulWidget {
@@ -15,7 +14,7 @@ class Login extends StatefulWidget {
 class _Login extends State<Login> {
   final AuthController authController = Get.find<AuthController>();
   String _user = "", _password = "";
-  bool _hidePassword = true, _isLogged = false;
+  bool _hidePassword = true;
 
   void handleUserChange(String newUser) {
     setState(() => _user = newUser);
@@ -31,14 +30,10 @@ class _Login extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
-    void handleRedirect() {
-      Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
+    if(authController.isLoggedIn.value){
+      Get.toNamed("/home");
     }
-
-    if (_isLogged) {
-      handleRedirect();
-    }
-
+    
     double screenWidth = MediaQuery.sizeOf(context).width;
     double screenHeight = MediaQuery.sizeOf(context).height;
     return Scaffold(

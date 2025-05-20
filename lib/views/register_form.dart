@@ -1,21 +1,21 @@
 import 'dart:convert';
 
+import 'package:api_demonstration/middlewares/auth.dart';
 import 'package:api_demonstration/middlewares/server_config.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-
-import 'home.dart';
 
 class Register extends StatefulWidget {
   const Register({super.key});
 
   @override
-  State<StatefulWidget> createState() => _Login();
+  State<StatefulWidget> createState() => _Register();
 }
 
-class _Login extends State<Register> {
+class _Register extends State<Register> {
   String _user = "", _password = "", _email = "", _passwordDupe = "";
-  bool _hidePassword = true, _isLogged = false;
+  bool _hidePassword = true;
 
   void handleUserChange(String newUser) {
     setState(() => _user = newUser);
@@ -39,6 +39,8 @@ class _Login extends State<Register> {
 
   @override
   Widget build(BuildContext context) {
+    AuthController authController = Get.find<AuthController>();
+
     Future<void> handleRegister() async {
       String authority = ServerConfig().getAuthority();
       Uri url = Uri.http(authority, "register");
@@ -52,12 +54,15 @@ class _Login extends State<Register> {
         }),
       );
       String body = res.body;
+      if (res.statusCode == 201) {
+        Get.toNamed("/login");
+      }
       print('Status Code: ${res.statusCode}');
       print(body);
     }
 
-    void handleRedirect() {
-      Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
+    if (authController.isLoggedIn.isTrue) {
+      Get.toNamed("/home");
     }
 
     double screenWidth = MediaQuery.sizeOf(context).width;

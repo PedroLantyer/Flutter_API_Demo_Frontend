@@ -1,4 +1,6 @@
+import 'package:api_demonstration/middlewares/auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -8,8 +10,13 @@ class Home extends StatefulWidget {
 }
 
 class _Home extends State<Home> {
+  final AuthController authController = Get.find<AuthController>();
+
   @override
   Widget build(BuildContext context) {
+    if (authController.isLoggedIn.isFalse) {
+      Get.toNamed("/login");
+    }
     double screenWidth = MediaQuery.sizeOf(context).width;
     double screenHeight = MediaQuery.sizeOf(context).height;
 
