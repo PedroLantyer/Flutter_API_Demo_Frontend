@@ -61,9 +61,11 @@ class _Register extends State<Register> {
       print(body);
     }
 
-    if (authController.isLoggedIn.isTrue) {
-      Get.toNamed("/home");
-    }
+    Future.microtask(
+      () => {
+        if (authController.isLoggedIn.isTrue) {Get.toNamed("/home")},
+      },
+    );
 
     double screenWidth = MediaQuery.sizeOf(context).width;
     double screenHeight = MediaQuery.sizeOf(context).height;

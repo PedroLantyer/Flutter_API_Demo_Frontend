@@ -14,9 +14,12 @@ class _Home extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    if (authController.isLoggedIn.isFalse) {
-      Get.toNamed("/login");
-    }
+    Future.microtask(
+      () => {
+        if (authController.isLoggedIn.isFalse) {Get.toNamed("/login")},
+      },
+    );
+
     double screenWidth = MediaQuery.sizeOf(context).width;
     double screenHeight = MediaQuery.sizeOf(context).height;
 
@@ -25,6 +28,10 @@ class _Home extends State<Home> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          IconButton(
+            onPressed: () => authController.logout(),
+            icon: Icon(Icons.logout, color: Colors.white),
+          ),
           Center(
             child: Text(
               "Hello World",

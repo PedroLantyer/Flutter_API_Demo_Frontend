@@ -30,10 +30,12 @@ class _Login extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
-    if(authController.isLoggedIn.value){
-      Get.toNamed("/home");
-    }
-    
+    Future.microtask(
+      () => {
+        if (authController.isLoggedIn.value) {Get.toNamed("/home")},
+      },
+    );
+
     double screenWidth = MediaQuery.sizeOf(context).width;
     double screenHeight = MediaQuery.sizeOf(context).height;
     return Scaffold(
