@@ -1,4 +1,6 @@
+import 'package:api_demonstration/middlewares/auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import 'views/home.dart';
 import 'views/login_form.dart';
@@ -10,13 +12,19 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   MyApp({super.key});
-  bool _isLogged = false;
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'API Demo',
-      home: _isLogged ? const Home() : const Login(),
+      initialRoute: '/login',
+      getPages: [
+        GetPage(name: '/login', page: () => Login()),
+        GetPage(name: '/home', page: () => Home()),
+      ],
+      initialBinding: BindingsBuilder(() {
+        Get.put(AuthController());
+      }),
     );
   }
 }

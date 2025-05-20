@@ -1,7 +1,6 @@
-import 'dart:convert';
-
+import 'package:api_demonstration/middlewares/auth.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:get/get.dart';
 
 import 'home.dart';
 import 'register_form.dart';
@@ -14,6 +13,7 @@ class Login extends StatefulWidget {
 }
 
 class _Login extends State<Login> {
+  final AuthController authController = Get.find<AuthController>();
   String _user = "", _password = "";
   bool _hidePassword = true, _isLogged = false;
 
@@ -31,29 +31,6 @@ class _Login extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
-    Future<void> handleLogin() async {
-      int port = 8080;
-      String address = "192.168.100.10",
-          endpoint = "/login",
-          authority = "$address:$port";
-
-      Uri url = Uri.http(authority, endpoint);
-      http.Response res = await http.post(
-        url,
-        headers: {"Content-Type": "application/json"},
-        body: jsonEncode(<String, dynamic>{
-          "user": _user,
-          "password": _password,
-        }),
-      );
-      Map body = jsonDecode(res.body);
-      if (body["isLogged"] != false) {
-        setState(() {
-          _isLogged = true;
-        });
-      }
-    }
-
     void handleRedirect() {
       Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
     }
@@ -123,12 +100,7 @@ class _Login extends State<Login> {
                   style: ButtonStyle(
                     backgroundColor: WidgetStatePropertyAll(Colors.white),
                   ),
-                  onPressed:
-                      () => handleLogin().then(
-                        (res) => {
-                          if (_isLogged) {handleRedirect()},
-                        },
-                      ),
+                  onPressed: () => authController.login(_user, _password),
                   child: Text(
                     "LOGIN",
                     style: TextStyle(
