@@ -7,6 +7,8 @@ import 'package:http/http.dart' as http;
 class AuthController extends GetxController {
   var isLoggedIn = false.obs;
   var isLoading = false.obs;
+  int? id;
+  String? user;
 
   Future<void> login(String username, String password) async {
     isLoading(true);
@@ -23,6 +25,8 @@ class AuthController extends GetxController {
     );
     Map body = jsonDecode(res.body);
     if (body != null && body["id"] != null && body["user"] != null) {
+      user = body["user"];
+      id = int.parse(body["id"]);
       isLoggedIn(true);
       Get.offAllNamed('/home');
     } else {

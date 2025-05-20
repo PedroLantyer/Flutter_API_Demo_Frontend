@@ -28,18 +28,19 @@ class _Home extends State<Home> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          Center(
+            child: Text(
+              "Welcome: ${authController.user}\nThere's more to come in the future :)",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: screenWidth * 0.05,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
           IconButton(
             onPressed: () => authController.logout(),
             icon: Icon(Icons.logout, color: Colors.white),
-          ),
-          Center(
-            child: Text(
-              "Hello World",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: screenWidth * 0.1,
-              ),
-            ),
           ),
         ],
       ),
