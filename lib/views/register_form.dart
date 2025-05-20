@@ -41,6 +41,12 @@ class _Register extends State<Register> {
   Widget build(BuildContext context) {
     AuthController authController = Get.find<AuthController>();
 
+    Future.microtask(
+      () => {
+        if (authController.isLoggedIn.isTrue) {Get.toNamed("/home")},
+      },
+    );
+
     Future<void> handleRegister() async {
       String authority = ServerConfig().getAuthority();
       Uri url = Uri.http(authority, "register");
@@ -53,19 +59,11 @@ class _Register extends State<Register> {
           "email": _email,
         }),
       );
-      String body = res.body;
+
       if (res.statusCode == 201) {
         Get.toNamed("/login");
       }
-      print('Status Code: ${res.statusCode}');
-      print(body);
     }
-
-    Future.microtask(
-      () => {
-        if (authController.isLoggedIn.isTrue) {Get.toNamed("/home")},
-      },
-    );
 
     double screenWidth = MediaQuery.sizeOf(context).width;
     double screenHeight = MediaQuery.sizeOf(context).height;
